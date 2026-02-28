@@ -75,7 +75,7 @@ wails dev
 
 ## 💾 安装与使用 (Installation)
 
-1. 前往 [Releases](你的仓库链接/releases) 页面下载最新的 `.dmg` 文件。
+1. 前往 [Releases](https://github.com/mycherish/brew-manager/releases) 页面下载最新的 `.dmg` 文件。
 2. 打开 `.dmg` 并将 `Brew-Manager` 拖入 **Applications** 文件夹。
 
 ### ⚠️ 解决“无法验证开发者”问题
