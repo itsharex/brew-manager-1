@@ -1,5 +1,5 @@
 import { reactive, ref, computed } from 'vue'
-import { GetBrewData, StartService, StopService } from '../../wailsjs/go/main/App'
+import { GetBrewData, StartService, StopService, GetAppIcon  } from '../../wailsjs/go/main/App'
 
 export function useBrew() {
   const data = reactive({ formulae: [], casks: [], loading: false })
@@ -28,8 +28,14 @@ export function useBrew() {
   async function updateList() {
     try {
       const res = await GetBrewData()
+      // 遍历 Casks 为每个应用请求图标（或者在后端直接一次性返回）
+      const caskWithIcons = await Promise.all(res.casks.map(async (item) => {
+        const icon = await GetAppIcon(item.name)
+        return { ...item, iconBase64: icon }
+      }))
+      data.casks = caskWithIcons
       data.formulae = res.formulae
-      data.casks = res.casks
+      // data.casks = res.casks
     } catch (err) {
       console.error("刷新失败:", err)
     }
@@ -55,6 +61,7 @@ export function useBrew() {
   return {
     data, searchQuery, processingMap, toast,
     filteredFormulae, filteredCasks,
-    updateList, handleService
+    updateList, handleService,
+    showToast
   }
 }

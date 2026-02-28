@@ -5,6 +5,12 @@
           class="status-indicator" 
           :class="item.status === 'started' ? 'online' : 'offline'">
     </span>
+    <div v-if="type === 'cask'" class="app-icon-container">
+        <img v-if="item.iconBase64" 
+             :src="'data:image/png;base64,' + item.iconBase64" 
+             class="app-icon" />
+        <span v-else class="app-placeholder">📦</span>
+      </div>
     <div class="info-meta">
       <span class="name">{{ item.name }}</span>
       <span class="version">{{ item.version }}</span>
@@ -113,5 +119,20 @@ defineEmits(['action'])
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+.app-icon-container {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.app-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

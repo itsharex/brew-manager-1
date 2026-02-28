@@ -7,7 +7,8 @@ import ItemCard from './components/ItemCard.vue'
 const { 
   data, searchQuery, processingMap, toast,
   filteredFormulae, filteredCasks, 
-  updateList, handleService 
+  updateList, handleService,
+  showToast
 } = useBrew()
 
 // 手动刷新按钮逻辑
@@ -54,7 +55,7 @@ onUnmounted(() => { if (timer) clearInterval(timer) })
       <div class="lists-wrapper">
         <section class="list-column">
           <div class="column-header">
-            <h3>TERMINAL TOOLS</h3>
+            <h3>Formulae</h3>
             <span class="count-badge">{{ filteredFormulae.length }}</span>
           </div>
           <div class="scroll-area">
@@ -71,7 +72,7 @@ onUnmounted(() => { if (timer) clearInterval(timer) })
 
         <section class="list-column">
           <div class="column-header">
-            <h3>GUI APPLICATIONS</h3>
+            <h3>Casks</h3>
             <span class="count-badge">{{ filteredCasks.length }}</span>
           </div>
           <div class="scroll-area">
