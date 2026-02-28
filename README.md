@@ -24,13 +24,19 @@
 * **Fluid Animations**: 优化的 Toast 提示与列表交互动效，反馈更自然。
 * **右上角通知系统**: 采用类 macOS 通知中心的交互设计，不干扰核心操作。
 
+### ✨ 功能特性
+* **视觉进化**：自动获取 Homebrew Cask 应用图标，界面更直观。
+* **原生转换引擎**：集成 macOS 系统级 `sips` 技术，实现 `.icns` 到 Web 兼容格式的零延迟转换。
+* **智能映射算法**：内置名称映射与模糊匹配逻辑，解决包名（如 `iterm2`）与应用名（如 `iTerm.app`）不一致的问题。
+* **高性能加载**：采用异步并发提取机制，并配合进程级隔离的临时缓存，确保图标加载不卡顿、不错位。
+
 ---
 
 ## 📸 界面预览
 
 | 概览 | 搜索与操作 |
 | :--- | :--- |
-| ![Main Window](https://cdn.jsdelivr.net/gh/mycherish/imgCloud/img/20260210141218730.png) | ![Search](https://cdn.jsdelivr.net/gh/mycherish/imgCloud/img/20260210141313033.png) |
+| ![Main Window](https://cdn.jsdelivr.net/gh/mycherish/imgCloud/img/20260301002735681.png) | ![Search](https://cdn.jsdelivr.net/gh/mycherish/imgCloud/img/20260301002838262.png) |
 
 
 ---
