@@ -7,7 +7,7 @@ import ItemCard from './components/ItemCard.vue'
 const { 
   data, searchQuery, processingMap, toast,
   filteredFormulae, filteredCasks, 
-  updateList, handleService,
+  updateList, handleService, handleRestart,
   showToast
 } = useBrew()
 
@@ -79,7 +79,8 @@ onMounted(async () => { // 注意这里加了 async
               type="formula"
               :item="item"
               :is-processing="processingMap.has(item.name)"
-              @action="handleService" 
+              @action="handleService"
+              @restart="handleRestart"
             />
           </div>
         </section>
@@ -106,5 +107,5 @@ onMounted(async () => { // 注意这里加了 async
 </template>
 
 <style scoped>
-@import "././assets/main.css"
+@import "././assets/main.css";
 </style>

@@ -1,5 +1,5 @@
 import { reactive, ref, computed } from 'vue'
-import { GetBrewData, StartService, StopService, GetAppIcon  } from '../../wailsjs/go/main/App'
+import { GetBrewData, StartService, StopService, GetAppIcon, RestartService  } from '../../wailsjs/go/main/App'
 
 export function useBrew() {
   const data = reactive({ formulae: [], casks: [], loading: false })
@@ -58,10 +58,29 @@ export function useBrew() {
       processingMap.delete(item.name)
     }
   }
+
+  async function handleRestart(name) {
+      if (processingMap.has(name)) return
+      processingMap.set(name, true)
+      try {
+          const result = await RestartService(name)
+          // 统一根据 Success 状态显示 Toast
+          showToast(result.success ? result.message : "系统错误: " + result.message, result.success ? 'success' : 'error')
+          // 如果重启成功，刷新列表
+          if (result.success) {
+              await updateList()
+          }
+      } catch (err) {
+          showToast("系统异常: " + err, 'error')
+      } finally {
+          processingMap.delete(name)
+      }
+  }
+
   return {
     data, searchQuery, processingMap, toast,
     filteredFormulae, filteredCasks,
-    updateList, handleService,
+    updateList, handleService, handleRestart,
     showToast
   }
 }

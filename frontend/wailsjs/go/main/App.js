@@ -14,6 +14,10 @@ export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
+export function RestartService(arg1) {
+  return window['go']['main']['App']['RestartService'](arg1);
+}
+
 export function StartService(arg1) {
   return window['go']['main']['App']['StartService'](arg1);
 }

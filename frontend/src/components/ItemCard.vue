@@ -1,35 +1,40 @@
 <template>
   <div class="item-card" :class="{ 'is-processing': isProcessing }">
-  <div class="item-main">
-    <span v-if="type === 'formula' && item.status !== 'none_tool'" 
-          class="status-indicator" 
-          :class="item.status === 'started' ? 'online' : 'offline'">
-    </span>
-    <div v-if="type === 'cask'" class="app-icon-container">
-        <img v-if="item.iconBase64" 
-             :src="'data:image/png;base64,' + item.iconBase64" 
-             class="app-icon" />
-        <span v-else class="app-placeholder">📦</span>
+    <div class="item-main">
+      <span v-if="type === 'formula' && item.status !== 'none_tool'"
+            class="status-indicator"
+            :class="item.status === 'started' ? 'online' : 'offline'">
+      </span>
+      <div v-if="type === 'cask'" class="app-icon-container">
+          <img v-if="item.iconBase64"
+               :src="'data:image/png;base64,' + item.iconBase64"
+               class="app-icon" />
+          <span v-else class="app-placeholder">📦</span>
+        </div>
+      <div class="info-meta">
+        <span class="name">{{ item.name }}</span>
+        <span class="version">{{ item.version }}</span>
       </div>
-    <div class="info-meta">
-      <span class="name">{{ item.name }}</span>
-      <span class="version">{{ item.version }}</span>
     </div>
-  </div>
 
-  <div class="item-actions" v-if="type === 'formula' && item.status !== 'none_tool'">
-    <button @click="$emit('action', item)" 
-            class="mac-btn"
-            :class="item.status === 'started' ? 'btn-stop' : 'btn-start'"
-            :disabled="isProcessing">
-      <template v-if="isProcessing">
-        <span class="mini-loader"></span>
-      </template>
-      <template v-else>
-        {{ item.status === 'started' ? '停止' : '启动' }}
-      </template>
-    </button>
-  </div>
+    <div class="item-actions" v-if="type === 'formula' && item.status !== 'none_tool'">
+      <button
+          class="mac-btn btn-restart"
+          @click.stop="$emit('restart', item.name)"
+          :disabled="isProcessing"
+          title="重启服务"
+      >
+        <span class="restart-icon">↺</span>
+      </button>
+
+      <button @click="$emit('action', item)"
+              class="mac-btn"
+              :class="item.status === 'started' ? 'btn-stop' : 'btn-start'"
+              :disabled="isProcessing">
+        <span v-if="isProcessing" class="mini-loader"></span>
+        <span>{{ item.status === 'started' ? '停止' : '启动' }}</span>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -50,7 +55,7 @@ defineProps({
  * 定义 Emit
  * 当点击按钮时，通知父组件执行具体的 Start/Stop 逻辑
  */
-defineEmits(['action'])
+defineEmits(['action', 'restart'])
 </script>
 
 <style scoped>
@@ -92,24 +97,63 @@ defineEmits(['action'])
 .item-card:hover {
   background: rgba(255, 255, 255, 0.06);
 }
-/* 7. 操作按钮 (macOS 风格) */
-.mac-btn {
-  padding: 5px 12px;
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: 500;
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.1);
-  color: #eee;
-  cursor: pointer;
-  transition: all 0.2s;
+.item-actions {
+  display: flex;
+  flex-direction: row; /* 强制横向 */
+  align-items: center;
+  gap: 6px; /* 按钮之间的间距 */
+  flex-shrink: 0; /* 防止操作区被名字挤压 */
 }
-.btn-start:hover { background: #34C759; border-color: #34C759; color: white; }
-.btn-stop:hover { background: #FF3B30; border-color: #FF3B30; color: white; }
+.btn-restart {
+  width: 28px; /* 方形按钮 */
+  padding: 0;
+  color: #0A84FF;
+  background: rgba(10, 132, 255, 0.15);
+  border-color: rgba(10, 132, 255, 0.2);
+}
+.btn-restart:hover {
+  background: #0A84FF;
+  color: white;
+}
+.restart-icon {
+  display: inline-block;
+  font-size: 12px;
+}
+
+/* 4. [优化] 针对不同的服务状态，你可以微调背景色 */
+.btn-start {
+  min-width: 50px;
+  color: #30D158;
+  background: rgba(48, 209, 88, 0.15);
+  border-color: rgba(48, 209, 88, 0.2);
+}
+.btn-start:hover {
+  background: #238A4A;
+  color: white;
+}
+/* 停止按钮：深红色背景 */
+.btn-stop {
+  min-width: 50px;
+  color: #FF453A;
+  background: rgba(255, 69, 58, 0.15);
+  border-color: rgba(255, 69, 58, 0.2);
+}
+.btn-stop:hover {
+  background: #A62A24;
+  color: white;
+}
+/* 旋转动画 */
+.restart-icon {
+  font-size: 14px;
+  font-weight: bold;
+}
 /* 处理中状态 */
-.is-processing { opacity: 0.5; pointer-events: none; }
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.is-processing {
+  opacity: 0.6; /* 只让卡片变淡，不影响按钮区域的占位 */
+}
+.is-processing .restart-icon {
+  animation: spin 1s linear infinite;
+  pointer-events: none; /* 防止重复点击 */
 }
 .app-icon-container {
   width: 32px;

@@ -18,7 +18,7 @@ type App struct {
 	ctx context.Context
 }
 
-// 定义一个结构体，方便前端使用
+// BrewPackage 定义一个结构体，方便前端使用
 type BrewPackage struct {
 	Name    string `json:"name"`
 	Version string `json:"version"`
@@ -34,12 +34,13 @@ type ServiceInfo struct {
 	Status string `json:"status"`
 }
 
-// 操作结果返回
+// ActionResponse 操作结果返回
 type ActionResponse struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
 }
 
+// 获取 brew 的路径
 func getBrewPath() string {
 	// 检查 M1/M2 路径
 	if _, err := os.Stat("/opt/homebrew/bin/brew"); err == nil {
@@ -52,6 +53,7 @@ func getBrewPath() string {
 	return "brew" // 保底方案
 }
 
+// GetBrewData 获取 brew 数据
 func (a *App) GetBrewData() BrewData {
 	// 1. 获取所有服务状态
 	services := make(map[string]string)
@@ -265,4 +267,20 @@ func capitalize(s string) string {
 	r := []rune(s)
 	r[0] = unicode.ToUpper(r[0])
 	return string(r)
+}
+
+// RestartService 重启服务
+func (a *App) RestartService(name string) ActionResponse {
+	cmd := exec.Command(getBrewPath(), "services", "restart", name)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return ActionResponse{
+			Success: false,
+			Message: fmt.Sprintf("重启失败: %s", string(out)),
+		}
+	}
+	return ActionResponse{
+		Success: true,
+		Message: fmt.Sprintf("服务 %s 已重启", name),
+	}
 }

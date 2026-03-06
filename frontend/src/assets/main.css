@@ -126,7 +126,13 @@
   padding: 0 8px 15px;
 }
 
-
 /* 滚动条美化 */
 .scroll-area::-webkit-scrollbar { width: 5px; }
 .scroll-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+
+
+/* 3. 增强按钮的点击反馈 */
+.mac-btn:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
