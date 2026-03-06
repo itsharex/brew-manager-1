@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted } from 'vue'
 import { useBrew } from './composables/useBrew'
 import Toast from './components/Toast.vue'
 import ItemCard from './components/ItemCard.vue'
@@ -19,14 +19,13 @@ async function manualRefresh() {
   showToast("数据已同步")
 }
 
-// 定时器管理
-let timer = null
-onMounted(() => {
-  updateList()
-  timer = setInterval(updateList, 10000)
+// 启动时更新数据
+onMounted(async () => { // 注意这里加了 async
+  data.loading = true
+  await updateList()     // 必须 await，否则 loading 效果一闪而过
+  data.loading = false
 })
 
-onUnmounted(() => { if (timer) clearInterval(timer) })
 </script>
 
 <template>
@@ -35,7 +34,6 @@ onUnmounted(() => { if (timer) clearInterval(timer) })
       <div class="header-content">
         <div class="title-group">
           <h2>Brew Manager</h2>
-          <span class="sync-tag">Auto Sync ON</span>
         </div>
         
         <div class="toolbar">
@@ -47,9 +45,18 @@ onUnmounted(() => { if (timer) clearInterval(timer) })
             <span v-if="data.loading" class="mini-loader"></span>
             <span v-else>刷新</span>
           </button>
+          
         </div>
       </div>
     </header>
+
+    <div v-if="data.loading" class="loading-overlay">
+      <div class="loader-content">
+        <div class="spinner"></div>
+        <p>正在同步 Homebrew 数据...</p>
+        <span class="sub-text">这可能需要几秒钟</span>
+      </div>
+    </div>
 
     <div class="main-content">
       <div class="lists-wrapper">

@@ -108,15 +108,6 @@ defineEmits(['action'])
 .btn-stop:hover { background: #FF3B30; border-color: #FF3B30; color: white; }
 /* 处理中状态 */
 .is-processing { opacity: 0.5; pointer-events: none; }
-.mini-loader {
-  width: 12px;
-  height: 12px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 1s linear infinite;
-  display: inline-block;
-}
 @keyframes spin {
   to { transform: rotate(360deg); }
 }

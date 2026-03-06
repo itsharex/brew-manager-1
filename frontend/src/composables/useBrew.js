@@ -35,7 +35,7 @@ export function useBrew() {
       }))
       data.casks = caskWithIcons
       data.formulae = res.formulae
-      // data.casks = res.casks
+
     } catch (err) {
       console.error("刷新失败:", err)
     }
