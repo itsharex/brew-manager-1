@@ -69,9 +69,9 @@
 
 ## 📸 界面预览
 
-| 概览 | GUI 应用 | Tap 管理 |
+| 概览 | GUI 应用 | Docker 容器管理 |
 | :--- | :--- | :--- |
-| ![Overview](https://cdn.jsdelivr.net/gh/mycherish/imgCloud/img/20260318235836105.png) | ![GUI Apps](https://cdn.jsdelivr.net/gh/mycherish/imgCloud/img/20260318235927897.png) | ![Tap Management](https://cdn.jsdelivr.net/gh/mycherish/imgCloud/img/20260319000015839.png) |
+| ![](https://cdn.jsdelivr.net/gh/mycherish/imgCloud/img/20260414181627679.png) | ![](https://cdn.jsdelivr.net/gh/mycherish/imgCloud/img/20260414181841200.png) | ![](https://cdn.jsdelivr.net/gh/mycherish/imgCloud/img/20260414181924772.png) |
 
 ---
 
